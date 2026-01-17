@@ -1,14 +1,17 @@
-import { memo } from 'react';
+import { LogOut, MessageSquare, User } from 'lucide-react';
 import { motion } from 'motion/react';
-import { LogOut, User, MessageSquare } from 'lucide-react';
+import { memo } from 'react';
+import { useAuth } from '../../hooks/useAuth';
 
 const Header = memo(() => {
-  const isAuthenticated = false;
-  const user:{username:string} | null = null;
+  const {
+    user,
+    isAuthenticated,
+    handleLogout,
+    openLogin,
+    openRegister,
+  } = useAuth();
 
-  const handleLogout = () =>{}
-  const openLogin = () =>{}
-  const openRegister = () =>{}
   return (
     <motion.header
       initial={{ opacity: 0, y: -20 }}
@@ -24,7 +27,7 @@ const Header = memo(() => {
             </div>
             <div>
               <h1 className="text-lg font-bold text-foreground">
-                Comment-System
+                CommentHub
               </h1>
               <p className="text-xs text-muted-foreground hidden sm:block">
                 Real-time discussions

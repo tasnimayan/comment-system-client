@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { Provider } from 'react-redux';
+import AuthModal from './components/auth/AuthModal';
 import { CommentsContainer } from './components/comments';
 import { CommentsLoading } from './components/comments/CommentsLoading';
 import Header from './components/layout/Header';
@@ -16,6 +17,8 @@ function App() {
             <CommentsContainer postId="demo-post" />
           </Suspense>
         </main>
+        {/* Auth modal */}
+        <AuthModal />
         <Toaster />
       </div>
     </Provider>
