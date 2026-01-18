@@ -11,6 +11,7 @@ interface CommentListProps {
   isLoading: boolean;
   currentUser: User | null;
   isAuthenticated: boolean;
+  pageId: string;
   onVote: (commentId: string, voteType: 'like' | 'dislike') => void;
   onEdit: (id: string, content: string) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
@@ -25,6 +26,7 @@ const CommentList = memo<CommentListProps>(({
   isLoading,
   currentUser,
   isAuthenticated,
+  pageId,
   onVote,
   onEdit,
   onDelete,
@@ -102,6 +104,8 @@ const CommentList = memo<CommentListProps>(({
                     comment={comment}
                     isOwner={isOwner(comment.authorId)}
                     isAuthenticated={isAuthenticated}
+                    pageId={pageId}
+                    currentUser={currentUser}
                     onVote={onVote}
                     onEdit={onEdit}
                     onDelete={onDelete}
@@ -126,6 +130,8 @@ const CommentList = memo<CommentListProps>(({
             comment={comment}
             isOwner={isOwner(comment.authorId)}
             isAuthenticated={isAuthenticated}
+            pageId={pageId}
+            currentUser={currentUser}
             onVote={onVote}
             onEdit={onEdit}
             onDelete={onDelete}

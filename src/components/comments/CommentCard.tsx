@@ -1,13 +1,16 @@
-import { Check, Edit3, MoreHorizontal, ThumbsDown, ThumbsUp, Trash2, User, X } from 'lucide-react';
+import { Check, Edit3, MoreHorizontal, ThumbsDown, ThumbsUp, Trash2, User as UserIcon, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { cn } from '../../lib/utils';
-import type { Comment } from '../../types';
+import type { Comment, User } from '../../types';
+import ReplySection from './ReplySection';
 
 interface CommentCardProps {
   comment: Comment;
   isOwner: boolean;
   isAuthenticated: boolean;
+  pageId: string;
+  currentUser: User | null;
   onVote: (commentId: string, voteType: 'like' | 'dislike') => void;
   onEdit: (id: string, content: string) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
@@ -18,6 +21,8 @@ const CommentCard = memo<CommentCardProps>(({
   comment,
   isOwner,
   isAuthenticated,
+  pageId,
+  currentUser,
   onVote,
   onEdit,
   onDelete,
@@ -98,17 +103,17 @@ const CommentCard = memo<CommentCardProps>(({
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className={cn(
-        "group relative glass rounded-xl p-5 transition-all duration-300",
+        "group relative glass rounded-lg p-3 transition-all duration-300",
         "hover:border-primary/30",
         isOwner && "ring-1 ring-primary/20"
       )}
     >
       {/* Header */}
-      <header className="flex items-start justify-between gap-4 mb-4">
-        <div className="flex items-center gap-3">
+      <header className="flex items-start justify-between gap-2 mb-2">
+        <div className="flex items-center gap-2">
           {/* Avatar */}
           <div className="relative">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center ring-2 ring-primary/20">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center ring-1 ring-primary/20">
               {comment.author.avatarUrl ? (
                 <img
                   src={comment.author.avatarUrl}
@@ -116,29 +121,29 @@ const CommentCard = memo<CommentCardProps>(({
                   className="w-full h-full rounded-full object-cover"
                 />
               ) : (
-                <User className="w-5 h-5 text-primary" />
+                <UserIcon className="w-4 h-4 text-primary" />
               )}
             </div>
             {isOwner && (
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-primary flex items-center justify-center">
-                <Check className="w-2.5 h-2.5 text-primary-foreground" />
+              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-primary flex items-center justify-center">
+                <Check className="w-2 h-2 text-primary-foreground" />
               </div>
             )}
           </div>
           
           {/* Author info */}
           <div>
-            <div className="flex items-center gap-2">
-              <span className="font-medium text-foreground">
+            <div className="flex items-center gap-1.5">
+              <span className="text-sm font-medium text-foreground">
                 {comment.author.name}
               </span>
               {isOwner && (
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium uppercase tracking-wider">
+                <span className="text-[9px] px-1 py-0.5 rounded-full bg-primary/20 text-primary font-medium uppercase">
                   You
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <time>{formatDate(comment.createdAt)}</time>
               {wasEdited && (
                 <span className="text-muted-foreground/60">• edited</span>
@@ -152,7 +157,7 @@ const CommentCard = memo<CommentCardProps>(({
           <div className="relative" ref={actionsRef}>
             <button
               onClick={() => setShowActions(!showActions)}
-              className="p-2 rounded-lg hover:bg-secondary/80 transition-colors opacity-0 group-hover:opacity-100"
+              className="p-1.5 rounded-lg hover:bg-secondary/80 transition-colors opacity-0 group-hover:opacity-100"
               aria-label="Comment actions"
             >
               <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
@@ -165,24 +170,24 @@ const CommentCard = memo<CommentCardProps>(({
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -5 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 top-full mt-1 glass-strong rounded-lg overflow-hidden shadow-lg z-10 min-w-[140px]"
+                  className="absolute right-0 top-full mt-1 glass-strong rounded-lg overflow-hidden shadow-lg z-10 min-w-[120px]"
                 >
                   <button
                     onClick={() => {
                       onEditToggle(comment.id, true);
                       setShowActions(false);
                     }}
-                    className="w-full flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-secondary/60 transition-colors"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-secondary/60 transition-colors"
                   >
-                    <Edit3 className="w-4 h-4" />
+                    <Edit3 className="w-3.5 h-3.5" />
                     Edit
                   </button>
                   <button
                     onClick={handleDelete}
                     disabled={isDeleting}
-                    className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-destructive hover:bg-destructive/10 transition-colors disabled:opacity-50"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors disabled:opacity-50"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3.5 h-3.5" />
                     {isDeleting ? 'Deleting...' : 'Delete'}
                   </button>
                 </motion.div>
@@ -193,44 +198,44 @@ const CommentCard = memo<CommentCardProps>(({
       </header>
 
       {/* Content */}
-      <div className="mb-4">
+      <div className="mb-2">
         {comment.isEditing ? (
-          <div className="space-y-3">
+          <div className="space-y-2">
             <textarea
               ref={editInputRef}
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
-              className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground placeholder-muted-foreground resize-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-              rows={3}
+              className="w-full bg-secondary/50 border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder-muted-foreground resize-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+              rows={2}
               placeholder="Edit your comment..."
             />
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-1.5">
               <button
                 onClick={handleCancelEdit}
-                className="px-3 py-1.5 text-sm rounded-lg hover:bg-secondary/60 transition-colors flex items-center gap-1.5"
+                className="px-2.5 py-1 text-sm rounded-lg hover:bg-secondary/60 transition-colors flex items-center gap-1"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
                 Cancel
               </button>
               <button
                 onClick={handleSaveEdit}
                 disabled={!editContent.trim()}
-                className="px-3 py-1.5 text-sm rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2.5 py-1 text-sm rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Check className="w-4 h-4" />
+                <Check className="w-3.5 h-3.5" />
                 Save
               </button>
             </div>
           </div>
         ) : (
-          <p className="text-foreground/90 leading-relaxed whitespace-pre-wrap">
+          <p className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap">
             {comment.content}
           </p>
         )}
       </div>
 
       {/* Footer - Voting */}
-      <footer className="flex items-center gap-4">
+      <footer className="flex items-center gap-2">
         <VoteButton
           type="like"
           count={comment.likes}
@@ -246,6 +251,20 @@ const CommentCard = memo<CommentCardProps>(({
           onClick={() => onVote(comment.id, 'dislike')}
         />
       </footer>
+
+      {/* Reply Section - Only show for top-level comments */}
+      {!comment.parentId && (
+        <ReplySection
+          commentId={comment.id}
+          pageId={pageId}
+          isAuthenticated={isAuthenticated}
+          currentUser={currentUser}
+          onVote={onVote}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onEditToggle={onEditToggle}
+        />
+      )}
     </motion.article>
   );
 });
@@ -279,7 +298,7 @@ const VoteButton = memo<VoteButtonProps>(({
       onClick={onClick}
       disabled={!isAuthenticated}
       className={cn(
-        "flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-200",
+        "flex items-center gap-1.5 px-2 py-1 rounded-lg transition-all duration-200",
         "disabled:opacity-50 disabled:cursor-not-allowed",
         isActive 
           ? activeClass
@@ -291,7 +310,7 @@ const VoteButton = memo<VoteButtonProps>(({
         animate={isActive ? { scale: [1, 1.2, 1] } : {}}
         transition={{ duration: 0.3 }}
       >
-        <Icon className={cn("w-4 h-4", isActive && "fill-current")} />
+        <Icon className={cn("w-3.5 h-3.5", isActive && "fill-current")} />
       </motion.div>
       <AnimatePresence mode="popLayout">
         <motion.span
@@ -299,7 +318,7 @@ const VoteButton = memo<VoteButtonProps>(({
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
-          className="text-sm font-medium tabular-nums"
+          className="text-xs font-medium tabular-nums"
         >
           {count}
         </motion.span>

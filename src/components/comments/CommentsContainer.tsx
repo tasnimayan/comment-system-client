@@ -44,6 +44,20 @@ const CommentsContainer = memo<CommentsContainerProps>(({ pageId }) => {
       animate={{ opacity: 1 }}
       className="space-y-6"
     >
+
+      <div className="flex items-center justify-center text-center min-h-[120px]">
+          <p className="text-gray-800 text-lg font-medium">
+            Page Comments
+          </p>
+        </div>
+      {/* Comment form */}
+      <CommentForm
+        isAuthenticated={isAuthenticated}
+        onSubmit={handleAddComment}
+        onLoginClick={openLogin}
+        username={currentUser?.name}
+      />
+
       {/* Header */}
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -51,9 +65,6 @@ const CommentsContainer = memo<CommentsContainerProps>(({ pageId }) => {
             <MessageSquare className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-foreground">
-              Comments
-            </h2>
             <p className="text-sm text-muted-foreground">
               {pagination.totalItems} {pagination.totalItems === 1 ? 'comment' : 'comments'}
             </p>
@@ -76,14 +87,7 @@ const CommentsContainer = memo<CommentsContainerProps>(({ pageId }) => {
         </div>
       </header>
 
-      {/* Comment form */}
-      <CommentForm
-        isAuthenticated={isAuthenticated}
-        onSubmit={handleAddComment}
-        onLoginClick={openLogin}
-        username={currentUser?.name}
-      />
-
+      
       {/* Controls */}
       {comments.length > 0 && (
         <CommentControls
@@ -100,6 +104,7 @@ const CommentsContainer = memo<CommentsContainerProps>(({ pageId }) => {
         isLoading={isLoading}
         currentUser={currentUser}
         isAuthenticated={isAuthenticated}
+        pageId={pageId}
         onVote={handleVote}
         onEdit={handleUpdateComment}
         onDelete={handleDeleteComment}

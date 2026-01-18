@@ -1,73 +1,94 @@
-# React + TypeScript + Vite
+# Comment System Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, feature-rich comment system UI application built with React and TypeScript. This application provides a user-friendly interface for managing comments, replies, likes, and dislikes, with real-time updates and a responsive design.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **User Authentication**: Register and login functionality
+- **Comment Management**: Create, edit, and delete comments
+- **Nested Replies**: Support for threaded comment conversations
+- **Interactions**: Like and dislike comments
+- **Responsive Design**: Modern UI built with Tailwind CSS and shadcn-ui components
+- **Sorting & Pagination**: Multiple sorting options and efficient pagination
 
-## React Compiler
+## Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Before you begin, ensure you have the following installed on your system:
 
-## Expanding the ESLint configuration
+- **Node.js** (version 18.x or higher) - [Download Node.js](https://nodejs.org/)
+- **npm** (comes with Node.js) or **yarn**
+- **Git** - [Download Git](https://git-scm.com/)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Installation
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Follow these steps to set up and run the project locally:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Step 1: Clone the Repository
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+git clone https://github.com/tasnimayan/comment-system-client
+cd comment-system-client
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Step 2: Install Dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+Install all required dependencies using npm:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm install
 ```
+
+Or if you prefer using yarn:
+
+```bash
+yarn install
+```
+
+### Step 3: Configure Environment Variables
+
+Create a `.env` file in the root of the `comment-system-client` directory.
+
+Add the following environment variables:
+
+```env
+VITE_API_URL=http://localhost:3000/api
+```
+
+> **Note**: Update `VITE_API_URL` to match your backend API URL. If your API is running on a different port or domain, adjust accordingly.
+
+### Step 4: Start the Development Server
+
+Start the development server with hot-reload:
+
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5173` (or the port shown in your terminal).
+
+## Available Scripts
+
+- **`npm run dev`** - Start the development server with hot-reload
+- **`npm run build`** - Build the application for production
+- **`npm run preview`** - Preview the production build locally
+- **`npm run lint`** - Run ESLint to check code quality
+- **`npm test`** - Run tests using Vitest
+
+## Building for Production
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+The optimized files will be generated in the `dist` directory. You can preview the production build locally using:
+
+```bash
+npm run preview
+```
+
+
+## License
+
+This project is part of the Techzu Assessment.
