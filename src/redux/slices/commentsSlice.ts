@@ -29,11 +29,11 @@ const normalizeComments = (comments: Comment[]): Record<string, Comment> => {
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
   async (
-    { postId, page, pageSize, sortBy }: { postId: string; page: number; pageSize: number; sortBy: SortOption },
+    { pageId, page, pageSize, sortBy }: { pageId: string; page: number; pageSize: number; sortBy: SortOption },
     { rejectWithValue }
   ) => {
     try {
-      return await commentsService.getComments(postId, page, pageSize, sortBy);
+      return await commentsService.getComments(pageId, page, pageSize, sortBy);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Failed to fetch comments';
       return rejectWithValue(message);

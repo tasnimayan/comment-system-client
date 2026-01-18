@@ -14,7 +14,7 @@ function App() {
         <Header />
         <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8">
         <Suspense fallback={<CommentsLoading />}>
-            <CommentsContainer postId="demo-post" />
+            <CommentsContainer pageId="1" />
           </Suspense>
         </main>
         {/* Auth modal */}

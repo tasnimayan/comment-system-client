@@ -21,8 +21,8 @@ export const useAuth = () => {
     return password.length >= 6;
   };
 
-  const validateUsername = (username: string): boolean => {
-    return username.length >= 3 && /^[a-zA-Z0-9_]+$/.test(username);
+  const validateName = (name: string): boolean => {
+    return name.length >= 2 && name.trim().length > 0;
   };
 
   const handleLogin = useCallback(
@@ -63,10 +63,10 @@ export const useAuth = () => {
       
       const errors: Record<string, string> = {};
       
-      if (!credentials.username) {
-        errors.username = 'Username is required';
-      } else if (!validateUsername(credentials.username)) {
-        errors.username = 'Username must be 3+ characters, alphanumeric only';
+      if (!credentials.name) {
+        errors.name = 'Name is required';
+      } else if (!validateName(credentials.name)) {
+        errors.name = 'Name must be at least 2 characters';
       }
       
       if (!credentials.email) {

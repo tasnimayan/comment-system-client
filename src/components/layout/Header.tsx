@@ -45,7 +45,7 @@ const Header = memo(() => {
                     <User className="w-4 h-4 text-primary" />
                   </div>
                   <span className="text-sm font-medium text-foreground">
-                    {user.username}
+                    {user.name}
                   </span>
                 </div>
 

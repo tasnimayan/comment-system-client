@@ -18,7 +18,7 @@ const AuthModal = memo(() => {
   } = useAuth();
 
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
   });
@@ -41,7 +41,7 @@ const AuthModal = memo(() => {
       });
     } else {
       await handleRegister({
-        username: formData.username,
+        name: formData.name,
         email: formData.email,
         password: formData.password,
       });
@@ -49,12 +49,12 @@ const AuthModal = memo(() => {
   }, [authModalView, formData, handleLogin, handleRegister]);
 
   const handleSwitchView = useCallback((view: 'login' | 'register') => {
-    setFormData({ username: '', email: '', password: '' });
+    setFormData({ name: '', email: '', password: '' });
     switchView(view);
   }, [switchView]);
 
   const handleClose = useCallback(() => {
-    setFormData({ username: '', email: '', password: '' });
+    setFormData({ name: '', email: '', password: '' });
     closeModal();
   }, [closeModal]);
 
@@ -104,32 +104,32 @@ const AuthModal = memo(() => {
                 </motion.div>
               )}
 
-              {/* Username (register only) */}
+              {/* Name (register only) */}
               {authModalView === 'register' && (
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">
-                    Username
+                    Name
                   </label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <input
                       type="text"
-                      name="username"
-                      value={formData.username}
+                      name="name"
+                      value={formData.name}
                       onChange={handleChange}
-                      placeholder="johndoe"
+                      placeholder="John Doe"
                       className={cn(
                         "w-full pl-10 pr-4 py-3 rounded-lg bg-secondary/50 border transition-all",
                         "placeholder:text-muted-foreground focus:outline-none focus:ring-2",
-                        validationErrors.username
+                        validationErrors.name
                           ? "border-destructive focus:ring-destructive/50"
                           : "border-border focus:ring-primary/50"
                       )}
-                      autoComplete="username"
+                      autoComplete="name"
                     />
                   </div>
-                  {validationErrors.username && (
-                    <p className="text-xs text-destructive">{validationErrors.username}</p>
+                  {validationErrors.name && (
+                    <p className="text-xs text-destructive">{validationErrors.name}</p>
                   )}
                 </div>
               )}

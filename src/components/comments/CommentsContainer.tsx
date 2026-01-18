@@ -9,10 +9,10 @@ import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 
 interface CommentsContainerProps {
-  postId: string;
+  pageId: string;
 }
 
-const CommentsContainer = memo<CommentsContainerProps>(({ postId }) => {
+const CommentsContainer = memo<CommentsContainerProps>(({ pageId }) => {
   const {
     comments,
     isLoading,
@@ -28,7 +28,7 @@ const CommentsContainer = memo<CommentsContainerProps>(({ postId }) => {
     handleSortChange,
     handlePageChange,
     handleEditToggle,
-  } = useComments(postId);
+  } = useComments(pageId);
 
   const { openLogin } = useAuth();
   const isWebSocketConnected = useAppSelector((state) => state.ui.isWebSocketConnected);
@@ -81,7 +81,7 @@ const CommentsContainer = memo<CommentsContainerProps>(({ postId }) => {
         isAuthenticated={isAuthenticated}
         onSubmit={handleAddComment}
         onLoginClick={openLogin}
-        username={currentUser?.username}
+        username={currentUser?.name}
       />
 
       {/* Controls */}

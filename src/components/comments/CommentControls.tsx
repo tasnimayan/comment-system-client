@@ -1,4 +1,4 @@
-import { ArrowUpDown, ChevronLeft, ChevronRight, Clock, TrendingDown, TrendingUp } from 'lucide-react';
+import { ArrowUpDown, ChevronLeft, ChevronRight, Clock, History, TrendingDown, TrendingUp } from 'lucide-react';
 import { motion } from 'motion/react';
 import React, { memo, useMemo } from 'react';
 import { cn } from '../../lib/utils';
@@ -13,8 +13,9 @@ interface CommentControlsProps {
 
 const sortOptions: { value: SortOption; label: string; icon: React.ElementType }[] = [
   { value: 'newest', label: 'Newest', icon: Clock },
-  { value: 'most_liked', label: 'Most Liked', icon: TrendingUp },
-  { value: 'most_disliked', label: 'Most Disliked', icon: TrendingDown },
+  { value: 'oldest', label: 'Oldest', icon: History },
+  { value: 'mostLiked', label: 'Most Liked', icon: TrendingUp },
+  { value: 'mostDisliked', label: 'Most Disliked', icon: TrendingDown },
 ];
 
 const CommentControls = memo<CommentControlsProps>(({

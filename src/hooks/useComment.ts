@@ -14,7 +14,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import type { CommentPayload, SortOption, VotePayload } from '../types';
 
-export const useComments = (postId: string) => {
+export const useComments = (pageId: string) => {
   const dispatch = useAppDispatch();
   
   const {
@@ -33,12 +33,12 @@ export const useComments = (postId: string) => {
 
   const loadComments = useCallback(() => {
     dispatch(fetchComments({
-      postId,
+      pageId,
       page: pagination.page,
       pageSize: pagination.pageSize,
       sortBy,
     }));
-  }, [dispatch, postId, pagination.page, pagination.pageSize, sortBy]);
+  }, [dispatch, pageId, pagination.page, pagination.pageSize, sortBy]);
 
   const handleAddComment = useCallback(
     async (content: string) => {
@@ -46,12 +46,12 @@ export const useComments = (postId: string) => {
       
       const payload: CommentPayload = {
         content: content.trim(),
-        postId,
+        pageId,
       };
       
       await dispatch(addComment(payload)).unwrap();
     },
-    [dispatch, postId]
+    [dispatch, pageId]
   );
 
   const handleUpdateComment = useCallback(
@@ -92,8 +92,15 @@ export const useComments = (postId: string) => {
     (newSort: SortOption) => {
       dispatch(setSortBy(newSort));
       dispatch(setPage(1));
+      // Reload comments with new sort immediately
+      dispatch(fetchComments({
+        pageId,
+        page: 1,
+        pageSize: pagination.pageSize,
+        sortBy: newSort,
+      }));
     },
-    [dispatch]
+    [dispatch, pageId, pagination.pageSize]
   );
 
   const handlePageChange = useCallback(

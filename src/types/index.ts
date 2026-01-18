@@ -2,7 +2,7 @@
 
 export interface User {
   id: string;
-  username: string;
+  name: string;
   email: string;
   avatarUrl?: string;
   createdAt: string;
@@ -13,7 +13,7 @@ export interface Comment {
   content: string;
   authorId: string;
   author: User;
-  postId: string;
+  pageId: string;
   parentId?: string;
   likes: number;
   dislikes: number;
@@ -22,6 +22,7 @@ export interface Comment {
   updatedAt: string;
   replies?: Comment[];
   isEditing?: boolean;
+  isEdited?: boolean;
 }
 
 export interface AuthState {
@@ -42,7 +43,7 @@ export interface CommentsState {
   optimisticUpdates: Record<string, Partial<Comment>>;
 }
 
-export type SortOption = 'newest' | 'most_liked' | 'most_disliked';
+export type SortOption = 'newest' | 'oldest' | 'mostLiked' | 'mostDisliked';
 
 export interface PaginationState {
   page: number;
@@ -56,8 +57,10 @@ export interface LoginCredentials {
   password: string;
 }
 
-export interface RegisterCredentials extends LoginCredentials {
-  username: string;
+export interface RegisterCredentials {
+  name: string;
+  email: string;
+  password: string;
 }
 
 export interface ApiResponse<T> {
@@ -68,8 +71,8 @@ export interface ApiResponse<T> {
 
 export interface CommentPayload {
   content: string;
-  postId: string;
-  parentId?: string;
+  pageId: string;
+  parentCommentId?: string | null;
 }
 
 export interface VotePayload {

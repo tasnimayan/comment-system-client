@@ -1,16 +1,16 @@
 import { defineConfig } from 'vite';
 // import react from '@vitejs/plugin-react'
 import react from "@vitejs/plugin-react-swc";
+import autoprefixer from 'autoprefixer';
 import path from "path";
 import tailwindcss from 'tailwindcss';
-import autoprefixer from 'autoprefixer';
 
 
 // https://vite.dev/config/
 export default defineConfig({
   server: {
     host: "::",
-    port: 8080,
+    port: 3000,
     hmr: {
       overlay: false,
     },

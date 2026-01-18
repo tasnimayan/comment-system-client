@@ -112,7 +112,7 @@ const CommentCard = memo<CommentCardProps>(({
               {comment.author.avatarUrl ? (
                 <img
                   src={comment.author.avatarUrl}
-                  alt={comment.author.username}
+                  alt={comment.author.name}
                   className="w-full h-full rounded-full object-cover"
                 />
               ) : (
@@ -130,7 +130,7 @@ const CommentCard = memo<CommentCardProps>(({
           <div>
             <div className="flex items-center gap-2">
               <span className="font-medium text-foreground">
-                {comment.author.username}
+                {comment.author.name}
               </span>
               {isOwner && (
                 <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium uppercase tracking-wider">
